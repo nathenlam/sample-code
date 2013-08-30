@@ -1,0 +1,47 @@
+<?php
+require_once ('/ning/src/NingApi.php');
+
+class myNingTest {
+		
+	private $consumerKey = '4e5687db-971a-4803-9a4d-ceb4ea41b030';
+	private $consumerSecret = '6702d114-1e9d-4101-8f46-3aa07ded5ac3';
+	
+	// Ning network subdomain (ie. 'apiexample' in apiexample.ning.com)
+	private $subdomain = 'johnsning3';
+	// Ning user email address
+	private $email = 'nathenlam@yahoo.com';
+	// Ning user password
+	private $password = 'ning123';
+
+  //Post a blog
+	public function blogPost() {
+		try {
+		
+			$myPost = new NingApi();
+			$myPost->setSubdomain($this->subdomain);
+			$myPost->setConsumerTokens($this->consumerKey, $this->consumerSecret);
+			$myPost->login($this->email, $this->password);
+			
+			$args = array();
+	        	$args['description'] = 'Test blog post description.';
+	        	$args['title'] = 'Test copy';
+			$args['author'] = '3vpc9dpv92r8n';
+			
+	        	$result = NingApi::instance()->blogPost->create($args);
+  	        
+			if($result)
+				echo "Post Succesful";
+			else
+				echo "Post Fail";
+			
+		} catch (Exception $e) {
+			print_r($e);
+		}
+	}
+	
+}
+
+$do_post = new myNingTest();
+$do_post-> blogPost();
+
+?>
